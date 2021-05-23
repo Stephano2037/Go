@@ -10,7 +10,7 @@ add something package (21.05.23)
 
 learning const variable & nomral variable (21.05.23)
 
-add comment for github
+add comment for github third (21.05.23)
 */
 
 package main //package name (Necessary)
