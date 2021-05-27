@@ -17,6 +17,8 @@ add comment for github third (21.05.23)
 --Naked Function
 -- Defer
 
+21.05.27 for loop
+- range
 
 */
 
@@ -51,18 +53,32 @@ func repeatMe(words ...string) {
 	fmt.Println(words)
 }
 
+func superAdd(numbers ...int) int {
+
+	//range give index
+	// for index, number := range numbers {
+	// 	fmt.Println(index, number)
+	// }
+	//
+
+	//:= declared
+	// for i := 0; i < len(numbers); i++ {
+	// 	fmt.Println(numbers[i])
+	// }
+
+	total := 0
+	for _, number := range numbers { //only get value, ignore index
+		total += number //total = total + number
+	}
+	defer fmt.Println((total))
+	return total
+}
+
 //var name bool = false
 func main() {
+	total := superAdd(1, 2, 3, 4, 5, 8)
 
-	//If you don't use your variable in Go, then compiler makes error
-	//totalLength, _ := lenAndUpper("stephano") //ignore value with '_'
-	//fmt.Println(totalLength)
-
-	totalLength, uppperName := lenAndUpper("stephano")
-	fmt.Println(totalLength, uppperName)
-
-	//fmt.Println(multiply(2, 2))
-
-	//repeatMe("nico", "stephano", "dal", "marcy")
+	fmt.Println("Total: ", total)
+	//for loop
 
 }
