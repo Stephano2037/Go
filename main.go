@@ -21,61 +21,26 @@ add comment for github third (21.05.23)
 - range
 
 
-21.05.29 if else | switch
+21.05.29
+- if else | switch
+- Pointer in GO
 
 */
 
-package main //package name (Necessary)
-import (
-	"fmt"
-)
+package main
 
-func canIDrink(age int) bool {
-	// //koreanAge := age + 2
+import "fmt"
 
-	// //if koreanAge < 18
-	// //can add variable in if
-	// if koreanAge := age + 2; koreanAge < 18 {
-	// 	return false
-	// } else {
-
-	// }
-
-	// return true
-
-	// switch age {
-	// case age:
-	// 	{
-	// 		return false
-	// 	}
-
-	// case 18:
-	// 	{
-	// 		return true
-	// 	}
-	// }
-	// return false
-
-	// switch {
-	// case age < 18:
-	// 	return false
-	// case age == 16:
-	// 	return true
-	// }
-
-	switch koreanAge := age + 2; koreanAge {
-	case 10:
-		return false
-	case 18:
-		return true
-	}
-	return false
-
-} //end of canIdrinkk function
-
-//var name bool = false
 func main() {
-	fmt.Println(canIDrink(16))
-	//for loop
+	// a := 2
+	// b := a
+	// a = 10
+	// a = 2000000003
+	// fmt.Println(&a, &b)
 
+	a := 2
+	b := &a
+	a = 5
+	*b = 20
+	fmt.Println(a, *b) //like c pointer
 }
