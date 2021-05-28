@@ -21,7 +21,7 @@ add comment for github third (21.05.23)
 - range
 
 
-21.05.29 if else
+21.05.29 if else | switch
 
 */
 
@@ -31,17 +31,45 @@ import (
 )
 
 func canIDrink(age int) bool {
-	//koreanAge := age + 2
+	// //koreanAge := age + 2
 
-	//if koreanAge < 18
-	//can add variable in if
-	if koreanAge := age + 2; koreanAge < 18 {
+	// //if koreanAge < 18
+	// //can add variable in if
+	// if koreanAge := age + 2; koreanAge < 18 {
+	// 	return false
+	// } else {
+
+	// }
+
+	// return true
+
+	// switch age {
+	// case age:
+	// 	{
+	// 		return false
+	// 	}
+
+	// case 18:
+	// 	{
+	// 		return true
+	// 	}
+	// }
+	// return false
+
+	// switch {
+	// case age < 18:
+	// 	return false
+	// case age == 16:
+	// 	return true
+	// }
+
+	switch koreanAge := age + 2; koreanAge {
+	case 10:
 		return false
-	} else {
-
+	case 18:
+		return true
 	}
-
-	return true
+	return false
 
 } //end of canIdrinkk function
 
