@@ -25,6 +25,8 @@ add comment for github third (21.05.23)
 - if else | switch
 - Pointer in GO
 
+21.05.31
+- Array and slices
 */
 
 package main
@@ -32,15 +34,10 @@ package main
 import "fmt"
 
 func main() {
-	// a := 2
-	// b := a
-	// a = 10
-	// a = 2000000003
-	// fmt.Println(&a, &b)
+	names := []string{"nico", "stephano", "good"}
+	names = append(names, "gggggg")
+	// names[3] = "get"
+	// names[4] = "go"
 
-	a := 2
-	b := &a
-	a = 5
-	*b = 20
-	fmt.Println(a, *b) //like c pointer
-}
+	fmt.Println(names)
+} //end of main
