@@ -27,6 +27,7 @@ add comment for github third (21.05.23)
 
 21.05.31
 - Array and slices
+- Map
 */
 
 package main
@@ -34,10 +35,19 @@ package main
 import "fmt"
 
 func main() {
-	names := []string{"nico", "stephano", "good"}
-	names = append(names, "gggggg")
-	// names[3] = "get"
-	// names[4] = "go"
+	// "string,string" [key]value
+	map_variable := map[string]string{"name": "stephano", "age": "12"} //can't use int
+	//fmt.Println(map_variable)
+	// for _, value := range map_variable {
+	// 	fmt.Println(value)
+	// }
 
-	fmt.Println(names)
+	for key, value := range map_variable {
+		fmt.Println(key, value)
+	}
+
+	for key, _ := range map_variable {
+		fmt.Println(key)
+	}
+
 } //end of main
