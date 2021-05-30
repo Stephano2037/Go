@@ -28,26 +28,23 @@ add comment for github third (21.05.23)
 21.05.31
 - Array and slices
 - Map
+- Struct
 */
 
 package main
 
 import "fmt"
 
+type person struct {
+	name    string
+	age     int
+	favfood []string
+}
+
 func main() {
-	// "string,string" [key]value
-	map_variable := map[string]string{"name": "stephano", "age": "12"} //can't use int
-	//fmt.Println(map_variable)
-	// for _, value := range map_variable {
-	// 	fmt.Println(value)
-	// }
+	favFood := []string{"kimchi", "pizza"}
+	//stephano := person{"Stephano", 29, favFood}
+	stephano := person{name: "stephano", age: 18, favfood: favFood}
 
-	for key, value := range map_variable {
-		fmt.Println(key, value)
-	}
-
-	for key, _ := range map_variable {
-		fmt.Println(key)
-	}
-
+	fmt.Println(stephano)
 } //end of main
