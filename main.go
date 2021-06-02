@@ -29,22 +29,25 @@ add comment for github third (21.05.23)
 - Array and slices
 - Map
 - Struct
+
+
+21.06.02 [Bank & Dictionary projects]
+- Account + NewAccount
+
 */
 
 package main
 
-import "fmt"
-
-type person struct {
-	name    string
-	age     int
-	favfood []string
-}
+import (
+	"chanhyun/banking"
+	"fmt"
+)
 
 func main() {
-	favFood := []string{"kimchi", "pizza"}
-	//stephano := person{"Stephano", 29, favFood}
-	stephano := person{name: "stephano", age: 18, favfood: favFood}
+	// account := banking.Account{Owner: "stephano", Balance: 1000}
+	// account.Owner = "Coke"
 
-	fmt.Println(stephano)
+	//account := banking.Account
+	account := banking.NewAccount("Stephano")
+	fmt.Println(account) //return object (not copy)
 } //end of main
