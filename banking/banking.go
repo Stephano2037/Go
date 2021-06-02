@@ -1,6 +1,9 @@
 package banking
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
 //private struct
 type bankAccount struct {
@@ -56,4 +59,20 @@ func (a *Account) Withdraw(amount int) error {
 	a.balance -= amount
 
 	return nil //same like none or null
+}
+
+//change owner of the account
+func (a *Account) ChangeOwner(newOwner string) {
+	a.owner = newOwner
+}
+
+//owner of the account
+func (a Account) Owner() string {
+	return a.owner
+}
+
+//Automatically return string in Go (like a c++ class)
+func (a Account) String() string {
+	//Sprint -> string print
+	return fmt.Sprint(a.Owner(), "'s account.\nHas: ", a.Balance())
 }
