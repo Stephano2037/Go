@@ -49,5 +49,7 @@ func main() {
 
 	//account := banking.Account
 	account := banking.NewAccount("Stephano")
-	fmt.Println(account) //return object (not copy)
+	account.Deposit(100)
+	fmt.Println(account.Balance())
+	//fmt.Println(account) //return object (not copy)
 } //end of main
