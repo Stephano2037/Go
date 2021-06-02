@@ -50,6 +50,13 @@ func main() {
 	//account := banking.Account
 	account := banking.NewAccount("Stephano")
 	account.Deposit(100)
+	//account.Withdraw(120)
+	fmt.Println(account.Balance())
+	// must check error by yourself
+	err := account.Withdraw(120)
+	if err != nil {
+		fmt.Println(err)
+	}
 	fmt.Println(account.Balance())
 	//fmt.Println(account) //return object (not copy)
 } //end of main
