@@ -47,21 +47,38 @@ import (
 )
 
 func main() {
-	dictionary := mydict.Dictionary{"first": "First word"}
-	definition, err := dictionary.Search("first")
-	if err != nil {
-		fmt.Println(err)
-	} else {
-		fmt.Println(definition)
-	}
+	dictionary := mydict.Dictionary{}
+	baseWord := "hello"
+	dictionary.Add(baseWord, "First")
+	fmt.Println(dictionary)
+	err := dictionary.Update("hello", "Second")
 
-	err = dictionary.Add("second", "Greeting")
 	if err != nil {
 		fmt.Println(err)
 	}
-	definition, err = dictionary.Search("second")
+	fmt.Println(dictionary)
+	word, _ := dictionary.Search(baseWord)
+	fmt.Println(word)
 
-	fmt.Println(definition, err)
+	err = dictionary.Delete("g")
+
+	fmt.Println(err, dictionary)
+
+	//dictionary := mydict.Dictionary{"first": "First word"}
+	//definition, err := dictionary.Search("first")
+	// if err != nil {
+	// 	fmt.Println(err)
+	// } else {
+	// 	fmt.Println(definition)
+	// }
+
+	// err = dictionary.Add("second", "Greeting")
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
+	// definition, err = dictionary.Search("second")
+
+	// fmt.Println(definition, err)
 	// dictionary := mydict.Dictionary{}
 
 	// dictionary["hello"] = "Bye"
