@@ -55,6 +55,13 @@ func main() {
 		fmt.Println(definition)
 	}
 
+	err = dictionary.Add("second", "Greeting")
+	if err != nil {
+		fmt.Println(err)
+	}
+	definition, err = dictionary.Search("second")
+
+	fmt.Println(definition, err)
 	// dictionary := mydict.Dictionary{}
 
 	// dictionary["hello"] = "Bye"
