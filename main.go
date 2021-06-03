@@ -34,33 +34,29 @@ add comment for github third (21.05.23)
 21.06.02 [Bank & Dictionary projects]
 - Account + NewAccount
 
+
+21.06.03 [Dictionary]
+
 */
 
 package main
 
 import (
-	"chanhyun/banking"
+	"chanhyun/mydict"
 	"fmt"
 )
 
 func main() {
-	// account := banking.Account{Owner: "stephano", Balance: 1000}
-	// account.Owner = "Coke"
+	dictionary := mydict.Dictionary{"first": "First word"}
+	definition, err := dictionary.Search("first")
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println(definition)
+	}
 
-	//account := banking.Account
-	account := banking.NewAccount("Stephano")
-	account.Deposit(100)
-	fmt.Println(account)
-	// //account.Withdraw(120)
-	// fmt.Println(account.Owner())
-	// fmt.Println(account.Balance())
-	// // must check error by yourself
-	// err := account.Withdraw(120)
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
-	// account.ChangeOwner("NK")
-	// fmt.Println(account.Owner())
-	// fmt.Println(account.Balance())
-	//fmt.Println(account) //return object (not copy)
+	// dictionary := mydict.Dictionary{}
+
+	// dictionary["hello"] = "Bye"
+	// fmt.Println(dictionary)
 } //end of main
