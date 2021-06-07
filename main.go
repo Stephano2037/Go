@@ -37,50 +37,40 @@ add comment for github third (21.05.23)
 
 21.06.03 [Dictionary]
 
+
+21.06.07  [URL checker project]
+
 */
 
 package main
 
 import (
-	"chanhyun/mydict"
+	"errors"
 	"fmt"
+	"net/http"
 )
 
+var errRequestedFailed = errors.New("requested error")
+
 func main() {
-	dictionary := mydict.Dictionary{}
-	baseWord := "hello"
-	dictionary.Add(baseWord, "First")
-	fmt.Println(dictionary)
-	err := dictionary.Update("hello", "Second")
+	urls := []string{"https://www.airbnb.com/",
+		"https://www.google.com/",
+		"https://www.amazon.com/"}
 
-	if err != nil {
-		fmt.Println(err)
+	//index, value
+	for _, url := range urls {
+		//fmt.Println(url)
+		hitURL(url)
 	}
-	fmt.Println(dictionary)
-	word, _ := dictionary.Search(baseWord)
-	fmt.Println(word)
 
-	err = dictionary.Delete("g")
-
-	fmt.Println(err, dictionary)
-
-	//dictionary := mydict.Dictionary{"first": "First word"}
-	//definition, err := dictionary.Search("first")
-	// if err != nil {
-	// 	fmt.Println(err)
-	// } else {
-	// 	fmt.Println(definition)
-	// }
-
-	// err = dictionary.Add("second", "Greeting")
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
-	// definition, err = dictionary.Search("second")
-
-	// fmt.Println(definition, err)
-	// dictionary := mydict.Dictionary{}
-
-	// dictionary["hello"] = "Bye"
-	// fmt.Println(dictionary)
 } //end of main
+
+func hitURL(url string) error {
+	fmt.Println("Checking:", url)
+	resp, err := http.Get(url)
+	if err == nil || resp.StatusCode >= 400 {
+		return errRequestedFailed
+	}
+	//100,200,300 -> redirection, 400 series-> error
+	return nil
+}
