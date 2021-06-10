@@ -44,7 +44,8 @@ add comment for github third (21.05.23)
 
 21.06.09 [parallel]
 - 'go' routine
-
+- 'channel' variable
+- get multi messages with channel variable
 */
 
 package main
@@ -56,25 +57,30 @@ import (
 
 func main() {
 	//make channel for get result of 'goroutine' function
-	c := make(chan bool)
-	people := [2]string{"stephano", "tenten"}
+	c := make(chan string)
+	people := [5]string{"stephano", "tenten", "dal", "hoho", "abc"}
 	for _, person := range people {
 		//can't return result
 		//result := go isSexy(person) -> make channel
 		//sending 2 true results through the channel
 
 		go isSexy(person, c)
+
 	}
-	//result :=      //wait until it gets just one message
-	fmt.Println(<-c) //get one true
-	fmt.Println(<-c) //get two true
 
-	// fmt.Println("*******") //district line
-	// fmt.Println(<-c)       //get three true ,NOT OPERATING cause it doesn't has message
-	// fmt.Println(<-c)       //get four true ,NOT OPERATING
+	for i := 0; i < len(people); i++ {
+		fmt.Println(<-c)
+	}
 
-	//main is not receiveing message when you using time sleep
-	//time.Sleep(time.Second * 10)
+	/*
+		fmt.Println("waiting for message")
+		resultOne := <-c
+		resultTwo := <-c
+		//Remember it is not "procedurellY operating"
+		fmt.Println("Received this message: ", resultOne) //get one true , waiting for a message until we get another message
+		fmt.Println("Received this message: ", resultTwo) //get two true
+	*/
+	//time.Sleep(time.Second * 2)
 } //end of main
 
 func sexyCount(person string) {
@@ -84,10 +90,11 @@ func sexyCount(person string) {
 	}
 }
 
-func isSexy(person string, channel chan bool) {
+func isSexy(person string, channel chan string) {
 	time.Sleep(time.Second * 5)
 	//sending true value, through channel variable
-	fmt.Println(person)
-	channel <- true
+	//fmt.Println(person)
+
+	channel <- person + " is sexy"
 	// return true
 }
