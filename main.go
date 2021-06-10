@@ -46,56 +46,59 @@ add comment for github third (21.05.23)
 - 'go' routine
 - 'channel' variable
 - get multi messages with channel variable
+
+
+- using go routine & channel with HITURL project
 */
 
 package main
 
 import (
+	"errors"
 	"fmt"
-	"time"
+	"net/http"
 )
 
-func main() {
-	//make channel for get result of 'goroutine' function
-	c := make(chan string)
-	people := [5]string{"stephano", "tenten", "dal", "hoho", "abc"}
-	for _, person := range people {
-		//can't return result
-		//result := go isSexy(person) -> make channel
-		//sending 2 true results through the channel
+var errRequestedFailed = errors.New("requested error")
 
-		go isSexy(person, c)
-
-	}
-
-	for i := 0; i < len(people); i++ {
-		fmt.Print("waiting for", i)
-		fmt.Println(<-c)
-	}
-
-	/*
-		fmt.Println("waiting for message")
-		resultOne := <-c
-		resultTwo := <-c
-		//Remember it is not "procedurellY operating"
-		fmt.Println("Received this message: ", resultOne) //get one true , waiting for a message until we get another message
-		fmt.Println("Received this message: ", resultTwo) //get two true
-	*/
-	//time.Sleep(time.Second * 2)
-} //end of main
-
-func sexyCount(person string) {
-	for i := 0; i < 10; i++ {
-		fmt.Println(person, "is sexy", i)
-		time.Sleep(time.Second)
-	}
+type result struct {
+	url    string
+	status string
 }
 
-func isSexy(person string, channel chan string) {
-	time.Sleep(time.Second * 5)
-	//sending true value, through channel variable
-	//fmt.Println(person)
+func main() {
 
-	channel <- person + " is sexy"
-	// return true
+	//results := make(map[string]string)
+	c := make(chan result)
+
+	urls := []string{"https://www.airbnb.com/",
+		"https://www.google.com/",
+		"https://www.amazon.com/"}
+
+	//index, value
+	for _, url := range urls {
+		//fmt.Println(url)
+		go hitURL(url, c)
+	}
+
+} //end of main
+
+//you can do only send
+// func hitURL(url string, c chan<- result) {
+// 	fmt.Println("Checking:", url)
+// 	//c <- result{} //
+// 	fmt.Println(<-c)
+// }
+
+func hitURL(url string, c chan<- result) {
+	fmt.Println("Checking:", url)
+	resp, err := http.Get(url)
+	status := "OK"
+	if err != nil || resp.StatusCode >= 400 {
+		status = "FAILED"
+		//c <- result{url: url, status: status}
+	} //else {
+
+	//}
+	c <- result{url: url, status: status}
 }
