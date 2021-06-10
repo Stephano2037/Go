@@ -55,15 +55,26 @@ import (
 )
 
 func main() {
-	//go routine is available when main is running itself
-	go sexyCount("stephano")
+	//make channel for get result of 'goroutine' function
+	c := make(chan bool)
+	people := [2]string{"stephano", "tenten"}
+	for _, person := range people {
+		//can't return result
+		//result := go isSexy(person) -> make channel
+		//sending 2 true results through the channel
 
-	//if you put the go word this function, main function will be closed first
-	//main is counting sexycount of tenten
-	sexyCount("tenten")
-	//time.Sleep(time.Second * 5)// alive just 5 seconds
-	//go sexycount -> main is finished, it doesn't wait for another function
+		go isSexy(person, c)
+	}
+	//result :=      //wait until it gets just one message
+	fmt.Println(<-c) //get one true
+	fmt.Println(<-c) //get two true
 
+	// fmt.Println("*******") //district line
+	// fmt.Println(<-c)       //get three true ,NOT OPERATING cause it doesn't has message
+	// fmt.Println(<-c)       //get four true ,NOT OPERATING
+
+	//main is not receiveing message when you using time sleep
+	//time.Sleep(time.Second * 10)
 } //end of main
 
 func sexyCount(person string) {
@@ -71,4 +82,12 @@ func sexyCount(person string) {
 		fmt.Println(person, "is sexy", i)
 		time.Sleep(time.Second)
 	}
+}
+
+func isSexy(person string, channel chan bool) {
+	time.Sleep(time.Second * 5)
+	//sending true value, through channel variable
+	fmt.Println(person)
+	channel <- true
+	// return true
 }
