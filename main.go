@@ -49,59 +49,53 @@ add comment for github third (21.05.23)
 
 
 - using go routine & channel with HITURL project
+
+*******************[Bank & Dictionary projects] ****************
+
+
+21.06.13 [Scrapper projects]
+- download go query from relative github
+
 */
 
 package main
 
 import (
-	"errors"
-	"fmt"
+	"log"
 	"net/http"
 )
 
-var errRequestedFailed = errors.New("requested error")
-
-type requestResult struct {
-	url    string
-	status string
-}
+var baseURL string = "https://kr.indeed.com/jobs?q=python&limit=50"
 
 func main() {
-
-	results := make(map[string]string)
-	c := make(chan requestResult)
-
-	urls := []string{"https://www.airbnb.com/",
-		"https://www.google.com/",
-		"https://www.amazon.com/"}
-
-	//index, value
-	for _, url := range urls {
-		//fmt.Println(url)
-		go hitURL(url, c)
-	}
-
-	for i := 0; i < len(urls); i++ {
-		result := <-c
-		results[result.url] = result.status
-		//fmt.Println(<-c)
-	}
-	for url, status := range results {
-		fmt.Println(url, status)
-	}
-
+	getPages()
 } //end of main
 
-//you can do only send
-func hitURL(url string, c chan<- requestResult) {
-	//fmt.Println("Checking:", url)
-	resp, err := http.Get(url)
-	status := "OK"
-	if err != nil || resp.StatusCode >= 400 {
-		status = "FAILED"
-		//c <- requestResult{url: url, status: status}
-	} //else {
+//how many pages are there
+func getPages() int {
+	res, err := http.Get(baseURL)
 
-	//}
-	c <- requestResult{url: url, status: status}
+	checkErr(err)
+	checkCode(res)
+
+	defer res.Body.Close()
+
+	doc, err := goquery.NewDocumentFromReader(res.Body) //bytes
+	checkErr(err)
+	return 0
+
+}
+
+//Checking error all the time
+
+func checkErr(err error) {
+	if err != nil {
+		log.Fatalln(err)
+	}
+}
+
+func checkCode(res *http.Response) {
+	if res.StatusCode != 200 {
+		log.Fatalln("Request failed with status: ", res.StatusCode)
+	}
 }
