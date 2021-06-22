@@ -77,6 +77,8 @@ func main() {
 	getPages()
 } //end of main
 
+//test1
+
 //how many pages are there
 func getPages() int {
 	res, err := http.Get(baseURL)
