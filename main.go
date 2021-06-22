@@ -56,18 +56,24 @@ add comment for github third (21.05.23)
 21.06.13 [Scrapper projects]
 - download go query from relative github
 
+
+21.06.22 renew go path
 */
 
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
+
+	"github.com/PuerkitoBio/goquery"
 )
 
 var baseURL string = "https://kr.indeed.com/jobs?q=python&limit=50"
 
 func main() {
+	//fmt.Println("hi")
 	getPages()
 } //end of main
 
@@ -82,6 +88,7 @@ func getPages() int {
 
 	doc, err := goquery.NewDocumentFromReader(res.Body) //bytes
 	checkErr(err)
+	fmt.Println(doc)
 	return 0
 
 }
