@@ -55,9 +55,11 @@ add comment for github third (21.05.23)
 
 21.06.13 [Scrapper projects]
 - download go query from relative github
-
+-- add getPages - 21.06.23
 
 21.06.22 renew go path
+
+
 */
 
 package main
@@ -73,6 +75,14 @@ import (
 
 var baseURL string = "https://kr.indeed.com/jobs?q=python&limit=50"
 
+type extractedJob struct {
+	id       string
+	title    string
+	salary   string
+	location string
+	summary  string
+}
+
 func main() {
 	//fmt.Println("hi")
 	totalPages := getPages()
@@ -86,6 +96,25 @@ func main() {
 func getPage(page int) {
 	pageURL := baseURL + "&start=" + strconv.Itoa(page*50)
 	fmt.Println("Requesting", pageURL)
+	res, err := http.Get(pageURL)
+	checkErr(err)
+	checkCode(res)
+
+	defer res.Body.Close()
+
+	doc, err := goquery.NewDocumentFromReader(res.Body) //bytes
+	checkErr(err)
+
+	searchCards := doc.Find(".jobsearch-SerpJobCard")
+
+	searchCards.Each(func(i int, card *goquery.Selection) {
+		id, _ := card.Attr("data-jk") //job card struct
+
+		title := card.Find(".title>a").Text()
+
+		location := card.Find(".sjcl").Text()
+		fmt.Println(id, title, location)
+	})
 }
 
 //how many pages are there
@@ -124,4 +153,8 @@ func checkCode(res *http.Response) {
 	if res.StatusCode != 200 {
 		log.Fatalln("Request failed with status: ", res.StatusCode)
 	}
+}
+
+func cleanString(str string) string {
+
 }
