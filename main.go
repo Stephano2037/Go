@@ -66,9 +66,11 @@ add comment for github third (21.05.23)
 package main
 
 import (
+	"encoding/csv"
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 
@@ -96,9 +98,27 @@ func main() {
 		jobs = append(jobs, extractedJobs...)
 
 	}
-	fmt.Println(jobs[0])
-
+	//fmt.Println(jobs[0])
+	writeJobs(jobs)
+	fmt.Println("Done, extracted:", len(jobs))
 } //end of main
+
+func writeJobs(jobs []extractedJob) {
+	file, err := os.Create("jobs.csv")
+	checkErr(err)
+	w := csv.NewWriter(file)
+	defer w.Flush()
+	headers := []string{"ID", "TITLE", "LOCATION", "SALARY", "SUMMARY"}
+	wErr := w.Write(headers)
+
+	checkErr(wErr)
+	for _, job := range jobs {
+		jobSlice := []string{"https://kr.indeed.com/viewjob?jk=" + job.id, job.title, job.location, job.salary, job.summary}
+		jwErr := w.Write(jobSlice)
+		checkErr(jwErr)
+	}
+
+}
 
 func getPage(page int) []extractedJob {
 	var jobs []extractedJob
