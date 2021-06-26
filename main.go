@@ -56,6 +56,7 @@ add comment for github third (21.05.23)
 21.06.13 [Scrapper projects]
 - download go query from relative github
 -- add getPages - 21.06.23
+-- extract
 
 21.06.22 renew go path
 
@@ -69,6 +70,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/PuerkitoBio/goquery"
 )
@@ -84,16 +86,22 @@ type extractedJob struct {
 }
 
 func main() {
+	var jobs []extractedJob
 	//fmt.Println("hi")
 	totalPages := getPages()
 	fmt.Println(totalPages)
 
 	for i := 0; i < totalPages; i++ {
-		getPage(i)
+		extractedJobs := getPage(i)
+		jobs = append(jobs, extractedJobs...)
+
 	}
+	fmt.Println(jobs[0])
+
 } //end of main
 
-func getPage(page int) {
+func getPage(page int) []extractedJob {
+	var jobs []extractedJob
 	pageURL := baseURL + "&start=" + strconv.Itoa(page*50)
 	fmt.Println("Requesting", pageURL)
 	res, err := http.Get(pageURL)
@@ -108,13 +116,29 @@ func getPage(page int) {
 	searchCards := doc.Find(".jobsearch-SerpJobCard")
 
 	searchCards.Each(func(i int, card *goquery.Selection) {
-		id, _ := card.Attr("data-jk") //job card struct
-
-		title := card.Find(".title>a").Text()
-
-		location := card.Find(".sjcl").Text()
-		fmt.Println(id, title, location)
+		job := extractJob(card)
+		jobs = append(jobs, job)
 	})
+
+	return jobs
+}
+
+func extractJob(card *goquery.Selection) extractedJob {
+	id, _ := card.Attr("data-jk") //job card struct
+
+	title := cleanString(card.Find(".title>a").Text())
+
+	location := cleanString(card.Find(".sjcl").Text())
+	salary := cleanString(card.Find(".salaryText").Text())
+	summary := cleanString(card.Find(".summary").Text())
+
+	return extractedJob{
+		id:       id,
+		title:    title,
+		location: location,
+		salary:   salary,
+		summary:  summary}
+	//fmt.Println(id, title, location, salary, summary)
 }
 
 //how many pages are there
@@ -156,5 +180,10 @@ func checkCode(res *http.Response) {
 }
 
 func cleanString(str string) string {
+	// no make empty space
+	//양쪽끝 스페이스 없애고,
+	//추가로 스페이스 또 없앤 후, 배열안에 텍스트만 얻음
+	//example hello.              f.        1-> (trimspace로 공백사라지고, fields로 배열이 나오고, "hello.","f.","1." -> join으로 hello f 1
+	return strings.Join(strings.Fields(strings.TrimSpace(str)), " ")
 
 }
