@@ -108,7 +108,7 @@ func writeJobs(jobs []extractedJob) {
 	checkErr(err)
 	w := csv.NewWriter(file)
 	defer w.Flush()
-	headers := []string{"ID", "TITLE", "LOCATION", "SALARY", "SUMMARY"}
+	headers := []string{"LINK", "TITLE", "LOCATION", "SALARY", "SUMMARY"}
 	wErr := w.Write(headers)
 
 	checkErr(wErr)
@@ -122,6 +122,8 @@ func writeJobs(jobs []extractedJob) {
 
 func getPage(page int) []extractedJob {
 	var jobs []extractedJob
+	c := make(chan extractedJob)
+
 	pageURL := baseURL + "&start=" + strconv.Itoa(page*50)
 	fmt.Println("Requesting", pageURL)
 	res, err := http.Get(pageURL)
@@ -136,14 +138,19 @@ func getPage(page int) []extractedJob {
 	searchCards := doc.Find(".jobsearch-SerpJobCard")
 
 	searchCards.Each(func(i int, card *goquery.Selection) {
-		job := extractJob(card)
-		jobs = append(jobs, job)
+		go extractJob(card, c)
+		//jobs = append(jobs, job)
 	})
+
+	for i := 0; i < (searchCards.Length()); i++ {
+		job := <-c
+		jobs = append(jobs, job)
+	}
 
 	return jobs
 }
 
-func extractJob(card *goquery.Selection) extractedJob {
+func extractJob(card *goquery.Selection, c chan<- extractedJob) {
 	id, _ := card.Attr("data-jk") //job card struct
 
 	title := cleanString(card.Find(".title>a").Text())
@@ -152,7 +159,8 @@ func extractJob(card *goquery.Selection) extractedJob {
 	salary := cleanString(card.Find(".salaryText").Text())
 	summary := cleanString(card.Find(".summary").Text())
 
-	return extractedJob{
+	//receiving messages
+	c <- extractedJob{
 		id:       id,
 		title:    title,
 		location: location,
