@@ -57,8 +57,11 @@ add comment for github third (21.05.23)
 - download go query from relative github
 -- add getPages - 21.06.23
 -- extract
+-- code review 21.06.30
 
 21.06.22 renew go path
+
+
 
 
 */
@@ -128,6 +131,7 @@ func getPage(page int, mainC chan<- []extractedJob) {
 
 	searchCards := doc.Find(".jobsearch-SerpJobCard")
 
+	//create 50 go routine
 	searchCards.Each(func(i int, card *goquery.Selection) {
 		go extractJob(card, c)
 		//jobs = append(jobs, job)
