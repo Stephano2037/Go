@@ -226,7 +226,8 @@ func checkCode(res *http.Response) {
 	}
 }
 
-func cleanString(str string) string {
+//clean string
+func CleanString(str string) string {
 	// no make empty space
 	//양쪽끝 스페이스 없애고,
 	//추가로 스페이스 또 없앤 후, 배열안에 텍스트만 얻음
