@@ -1,10 +1,14 @@
 package main
 
 import (
-	"fmt"
+	"chanhyun/scrapper"
+	"os"
+	"strings"
 
 	"github.com/labstack/echo"
 )
+
+const FILE_NAME string = "jobs.csv"
 
 func handleHome(c echo.Context) error {
 	//return c.String(http.StatusOK, "hello,world!")
@@ -12,9 +16,12 @@ func handleHome(c echo.Context) error {
 }
 
 func handleScrape(c echo.Context) error {
-	//term := strings.Tolower(scrapper.CleanString(c.FormValue("term")))
-	fmt.Println(c.FormValue("term"))
-	return nil
+	defer os.Remove(FILE_NAME)
+	term := strings.ToLower(scrapper.CleanString(c.FormValue("term")))
+	//fmt.Println(c.FormValue("term"))
+	scrapper.Scrape(term)
+
+	return c.Attachment(FILE_NAME, FILE_NAME) //nil
 	//return c.File("home.html")
 }
 

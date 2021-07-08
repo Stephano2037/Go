@@ -64,7 +64,9 @@ add comment for github third (21.05.23)
 
 21.07.03 [WEB SERVER WITH ECHO]
 
--
+- 21.07.04 using echo .GET, POST
+
+-21.07.08 download files
 
 
 
@@ -172,11 +174,11 @@ func writeJobs(jobs []extractedJob) {
 func extractJob(card *goquery.Selection, c chan<- extractedJob) {
 	id, _ := card.Attr("data-jk") //job card struct
 
-	title := cleanString(card.Find(".title>a").Text())
+	title := CleanString(card.Find(".title>a").Text())
 
-	location := cleanString(card.Find(".sjcl").Text())
-	salary := cleanString(card.Find(".salaryText").Text())
-	summary := cleanString(card.Find(".summary").Text())
+	location := CleanString(card.Find(".sjcl").Text())
+	salary := CleanString(card.Find(".salaryText").Text())
+	summary := CleanString(card.Find(".summary").Text())
 
 	//receiving messages
 	c <- extractedJob{
