@@ -2,7 +2,9 @@ package main
 
 import (
 	"chanhyun/scrapper"
+	"fmt"
 	"os"
+	"strconv"
 	"strings"
 
 	"github.com/labstack/echo"
@@ -25,11 +27,44 @@ func handleScrape(c echo.Context) error {
 	//return c.File("home.html")
 }
 
+// func main() {
+
+// 	e := echo.New()
+// 	e.GET("/", handleHome)
+// 	e.POST("/scrape", handleScrape)
+// 	e.Logger.Fatal(e.Start(":1323"))
+// 	//scrapper.Scrape("term")
+// }
+
+var i int = 42
+
+var (
+	actorName    string = "Elisabeth Sladen"
+	companion    string = "Sarah Jane Smith"
+	doctorNumber int    = 3
+	season       int    = 11
+)
+
+var (
+	counter int = 0
+)
+
 func main() {
 
-	e := echo.New()
-	e.GET("/", handleHome)
-	e.POST("/scrape", handleScrape)
-	e.Logger.Fatal(e.Start(":1323"))
-	//scrapper.Scrape("term")
+	//should be readable
+	//var theHTTP string = "https://google.com"
+
+	//shadowing
+	var i float32 = 42.5
+	//	j := 13
+
+	var j int
+	j = int(i)
+	var c string = strconv.Itoa(j)
+
+	fmt.Printf("%v,%T\n", c, c)
+	fmt.Printf("%v,%T\n", i, i)
+	fmt.Printf("%v,%T", j, j)
+	//fmt.Println(i)
+	//fmt.Println(j)
 }
